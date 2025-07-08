@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 
-from .models import Familiar, Curso, Estudiante
+from .models import Curso, Docente
 
-from .forms import CursoForm, EstudianteForm
+from .forms import CursoForm, DocenteForm, EstudianteForm
 
 # Create your views here.
 from django.http import HttpResponse
@@ -20,18 +20,23 @@ def saludo_con_template(request):
     return render(request, 'mi_primer_app/saludo.html')
 
 
-def crear_familiar(request, nombre):
-    if nombre is not None:
-        # Creamos un nuevo objeto Familiar
-        nuevo_familiar = Familiar(
-            nombre=nombre,
-            apellido="ApellidoEjemplo",
-            edad=30,
-            fecha_nacimiento="1993-01-01",
-            parentesco="Primo"
-        )
-        nuevo_familiar.save()
-    return render(request, "mi_primer_app/crear_familiar.html", {"nombre": nombre})
+def crear_docente(request):
+   
+    if request.method == 'POST':
+        form = DocenteForm(request.POST)
+        if form.is_valid():
+            # Procesar el formulario y guardar el docente
+            nuevo_docente = Docente(
+                nombre=form.cleaned_data['nombre'],
+                apellido=form.cleaned_data['apellido'],
+                email=form.cleaned_data['email'],
+                edad=form.cleaned_data['edad'],
+            )
+            nuevo_docente.save()
+        return redirect('inicio')
+    else:
+        form = DocenteForm()
+        return render(request, 'mi_primer_app/crear_docente.html', {'form': form})
 
 
 def crear_curso(request):
@@ -42,6 +47,7 @@ def crear_curso(request):
             # Procesar el formulario y guardar el curso
             nuevo_curso = Curso(
                 nombre=form.cleaned_data['nombre'],
+                docente=form.cleaned_data['docente'],
                 descripcion=form.cleaned_data['descripcion'],
                 duracion_semanas=form.cleaned_data['duracion_semanas'],
                 fecha_inicio=form.cleaned_data['fecha_inicio'],
@@ -59,15 +65,15 @@ def crear_estudiante(request):
     if request.method == 'POST':
         form = EstudianteForm(request.POST)
         if form.is_valid():
-            # Procesar el formulario y guardar el curso
-            nuevo_curso = Estudiante(
+            # Procesar el formulario y guardar el estudiante
+            nuevo_estudiante = Estudiante(
                 nombre=form.cleaned_data['nombre'],
                 apellido=form.cleaned_data['apellido'],
                 email=form.cleaned_data['email'],
                 edad=form.cleaned_data['edad'],
                 fecha_inscripcion=form.cleaned_data['fecha_inscripcion']
             )
-            nuevo_curso.save()
+            nuevo_estudiante.save()
             return redirect('inicio')
     else:
         form = EstudianteForm()
