@@ -6,8 +6,8 @@ from django.db import models
 class Docente(models.Model):
     nombre = models.CharField(max_length=50)
     apellido = models.CharField(max_length=50)
+    email = models.EmailField(unique=True)
     edad = models.IntegerField()
-    fecha_nacimiento = models.DateField()
     curso = models.CharField(max_length=50)
 
     def __str__(self):
@@ -17,6 +17,7 @@ class Docente(models.Model):
 class Curso(models.Model):
     nombre = models.CharField(max_length=100)
     descripcion = models.TextField(blank=True, null=True)
+    docente = models.CharField(max_length=100)
     duracion_semanas = models.IntegerField(default=4)
     fecha_inicio = models.DateField()
     activo = models.BooleanField(default=True)
@@ -30,6 +31,7 @@ class Estudiante(models.Model):
     apellido = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     edad = models.IntegerField()
+    curso = models.CharField(max_length=100)
     fecha_inscripcion = models.DateField(auto_now_add=True)
 
     def __str__(self):

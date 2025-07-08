@@ -1,0 +1,26 @@
+{% extends "padre.html" %}
+
+{% block title %} Docentes {% endblock %}
+
+{% block content %}
+
+<h2>Buscar Docente</h2>
+
+<form method="GET" action="{% url 'buscar-docentes' %}">
+    <input type="text" name="nombre" placeholder="Buscar docente..." value="{{ nombre }}">
+    <button type="submit">Buscar</button>
+</form>
+
+<h2>Docentes: </h2>
+
+<ul>
+    {% for docente in docentes %}
+        <li>{{ docente.nombre }}</li>
+    {% empty %}
+        <li>No hay docentes disponibles.</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'crear-docente' %}">Agregar Docente</a>
+
+{% endblock %}

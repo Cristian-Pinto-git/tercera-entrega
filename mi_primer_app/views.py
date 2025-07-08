@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from .models import Curso, Docente
+from .models import Curso, Docente, Estudiante
 
 from .forms import CursoForm, DocenteForm, EstudianteForm
 
@@ -27,10 +27,10 @@ def crear_docente(request):
         if form.is_valid():
             # Procesar el formulario y guardar el docente
             nuevo_docente = Docente(
-                nombre=form.cleaned_data['nombre'],
-                apellido=form.cleaned_data['apellido'],
-                email=form.cleaned_data['email'],
-                edad=form.cleaned_data['edad'],
+            nombre=form.cleaned_data['nombre'],
+            apellido=form.cleaned_data['apellido'],
+            email=form.cleaned_data['email'],
+            edad=form.cleaned_data['edad'],
             )
             nuevo_docente.save()
         return redirect('inicio')
@@ -71,14 +71,23 @@ def crear_estudiante(request):
                 apellido=form.cleaned_data['apellido'],
                 email=form.cleaned_data['email'],
                 edad=form.cleaned_data['edad'],
+                curso = form.cleaned_data['curso'],
                 fecha_inscripcion=form.cleaned_data['fecha_inscripcion']
             )
             nuevo_estudiante.save()
             return redirect('inicio')
     else:
         form = EstudianteForm()
-        return render(request, 'mi_primer_app/crear_estudiante.html', {'form': form})
+    
+    return render(request, 'mi_primer_app/crear_estudiante.html', {'form': form})
 
+def estudiantes(request):
+    estudiantes = Estudiante.objects.all()
+    return render(request, 'mi_primer_app/estudiantes.html', {'estudiantes': estudiantes})
+
+def docentes(request):
+    docentes = Docente.objects.all()
+    return render(request, 'mi_primer_app/docentes.html', {'docentes': docentes})
 
 def cursos(request):
     cursos = Curso.objects.all()
@@ -90,3 +99,17 @@ def buscar_cursos(request):
         nombre = request.GET.get('nombre', '')
         cursos = Curso.objects.filter(nombre__icontains=nombre)
         return render(request, 'mi_primer_app/cursos.html', {'cursos': cursos, 'nombre': nombre})
+
+def buscar_docentes(request):
+    if request.method == 'GET':
+        nombre = request.GET.get('nombre', '')
+        docentes = Docente.objects.filter(nombre__icontains=nombre)
+        return render(request, 'mi_primer_app/docentes.html', {'docentes': docentes, 'nombre': nombre})
+    
+def buscar_estudiantes(request):
+    if request.method == 'GET':
+        nombre = request.GET.get('nombre', '')
+        estudiantes = Estudiante.objects.filter(nombre__icontains=nombre)
+        return render(request, 'mi_primer_app/estudiantes.html', {'estudiantes': estudiantes, 'nombre': nombre})
+    
+    
