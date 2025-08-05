@@ -1,4 +1,5 @@
 from django import forms
+from .models import Auto
 
 
 class CursoForm(forms.Form):
@@ -26,3 +27,8 @@ class DocenteForm(forms.Form):
     email = forms.EmailField()
     edad = forms.IntegerField(min_value=10, max_value=100)
     curso = forms.CharField(label="Curso", max_length=100)
+
+class AutoForm(forms.ModelForm):
+    class Meta:
+        model = Auto
+        fields = ['marca', 'modelo', 'descripcion']

@@ -21,6 +21,8 @@
     {% endfor %}
 </ul>
 
-<a href="{% url 'crear-docente' %}">Agregar Docente</a>
+<form action="{% url 'crear-curso' %}">
+    <button type="submit">Agregar Docente</button>
+</form>
 
 {% endblock %}
