@@ -1,0 +1,28 @@
+{% extends "padre.html" %}
+
+{% block title %} Usuarios {% endblock %}
+
+{% block content %}
+
+<h2>Buscar Usuario</h2>
+
+<form method="GET" action="{% url 'usuarios' %}">
+    <input type="text" name="nombre" placeholder="Buscar usuario..." value="{{ nombre }}">
+    <button type="submit">Buscar</button>
+</form>
+
+<h2>Usuarios: </h2>
+
+<ul>
+    {% for usuario in usuarios %}
+        <li>{{ usuario.username }}</li>
+    {% empty %}
+        <li>No hay usuarios disponibles.</li>
+    {% endfor %}
+</ul>
+
+<form action="{% url 'register' %}">
+    <button type="submit">Agregar Usuario</button>
+</form>
+
+{% endblock %}

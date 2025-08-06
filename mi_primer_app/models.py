@@ -45,3 +45,12 @@ class Auto(models.Model):
 
     def __str__(self):
         return f"{self.marca} {self.modelo} ({self.descripcion})"
+    
+
+class User(models.Model):
+    marca = models.CharField(max_length=100)
+    modelo = models.CharField(max_length=100)
+    descripcion = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.marca} {self.modelo} ({self.descripcion})"

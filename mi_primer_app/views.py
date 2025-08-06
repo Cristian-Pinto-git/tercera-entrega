@@ -6,6 +6,8 @@ from .models import Curso, Docente, Estudiante, Auto
 
 from .forms import CursoForm, DocenteForm, EstudianteForm, AutoForm
 
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 from django.http import HttpResponse
 
@@ -22,6 +24,7 @@ def saludo_con_template(request):
     return render(request, 'mi_primer_app/saludo.html')
 
 
+@login_required
 def crear_docente(request):
    
     if request.method == 'POST':
@@ -41,6 +44,7 @@ def crear_docente(request):
         return render(request, 'mi_primer_app/crear_docente.html', {'form': form})
 
 
+@login_required
 def crear_curso(request):
 
     if request.method == 'POST':
@@ -62,6 +66,7 @@ def crear_curso(request):
         return render(request, 'mi_primer_app/crear_curso.html', {'form': form})
 
 
+@login_required
 def crear_estudiante(request):
 
     if request.method == 'POST':
@@ -77,43 +82,56 @@ def crear_estudiante(request):
                 fecha_inscripcion=form.cleaned_data['fecha_inscripcion']
             )
             nuevo_estudiante.save()
-            return redirect('inicio')
+            return redirect('estudiantes')
     else:
         form = EstudianteForm()
     
     return render(request, 'mi_primer_app/crear_estudiante.html', {'form': form})
 
+
+@login_required
 def estudiantes(request):
     estudiantes = Estudiante.objects.all()
     return render(request, 'mi_primer_app/estudiantes.html', {'estudiantes': estudiantes})
 
+
+@login_required
 def docentes(request):
     docentes = Docente.objects.all()
     return render(request, 'mi_primer_app/docentes.html', {'docentes': docentes})
 
+
+@login_required
 def cursos(request):
     cursos = Curso.objects.all()
     return render(request, 'mi_primer_app/cursos.html', {'cursos': cursos})
 
 
+@login_required
 def buscar_cursos(request):
     if request.method == 'GET':
         nombre = request.GET.get('nombre', '')
         cursos = Curso.objects.filter(nombre__icontains=nombre)
         return render(request, 'mi_primer_app/cursos.html', {'cursos': cursos, 'nombre': nombre})
 
+
+@login_required
 def buscar_docentes(request):
     if request.method == 'GET':
         nombre = request.GET.get('nombre', '')
         docentes = Docente.objects.filter(nombre__icontains=nombre)
         return render(request, 'mi_primer_app/docentes.html', {'docentes': docentes, 'nombre': nombre})
-    
+
+ 
+@login_required   
 def buscar_estudiantes(request):
     if request.method == 'GET':
         nombre = request.GET.get('nombre', '')
         estudiantes = Estudiante.objects.filter(nombre__icontains=nombre)
         return render(request, 'mi_primer_app/estudiantes.html', {'estudiantes': estudiantes, 'nombre': nombre})
 
+def about(request):
+    return render(request, 'mi_primer_app/about.html')
 
 class AutoListView(ListView):
     model = Auto

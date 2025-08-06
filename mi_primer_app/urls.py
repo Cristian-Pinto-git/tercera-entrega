@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import (saludo, docentes, estudiantes, saludo_con_template, crear_docente, inicio,
+from .views import (about, saludo, docentes, estudiantes, saludo_con_template, crear_docente, inicio,
                     crear_curso, crear_estudiante, buscar_cursos, buscar_docentes, buscar_estudiantes, cursos,
                     AutoListView, AutoCreateView, AutoDetailView, AutoUpdateView, AutoDeleteView)
 
@@ -17,7 +17,7 @@ urlpatterns = [
     path('cursos/buscar', buscar_cursos, name='buscar-cursos'),
     path('estudiantes/buscar', buscar_estudiantes, name='buscar-estudiantes'),
     path('docentes/buscar', buscar_docentes, name='buscar-docentes'),
-
+    path('about/', about, name='about'),
     # urls con vistas basadas en clases
     path('crear-auto/', AutoCreateView.as_view(), name='crear-auto'),
     path('listar-autos/', AutoListView.as_view(), name='listar-autos'),
