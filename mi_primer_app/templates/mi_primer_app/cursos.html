@@ -15,7 +15,12 @@
 
 <ul>
     {% for curso in cursos %}
-        <li>{{ curso.nombre }}</li>
+        <li>
+            {{ curso.nombre }}
+            <button type="button" onclick="location.href='{% url 'detalle-curso' curso.pk %}'"> Detalle </button>
+            <button type="button" onclick="location.href='{% url 'editar-curso' curso.pk %}'"> Editar </button>
+            <button type="button" onclick="location.href='{% url 'eliminar-curso' curso.pk %}'"> Eliminar </button>
+        </li>
     {% empty %}
         <li>No hay cursos disponibles.</li>
     {% endfor %}

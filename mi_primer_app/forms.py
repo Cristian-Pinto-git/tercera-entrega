@@ -1,15 +1,15 @@
 from django import forms
-from .models import Auto
+from .models import Auto, Curso
 
 
-class CursoForm(forms.Form):
-    nombre = forms.CharField()
-    descripcion = forms.CharField(widget=forms.Textarea, required=False)
-    docente = forms.CharField(label="Docente", max_length=100)
-    duracion_semanas = forms.IntegerField(min_value=1, initial=4)
-    fecha_inicio = forms.DateField(
-        widget=forms.DateInput(attrs={'type': 'date'}))
-    activo = forms.BooleanField(required=False, initial=True)
+class CursoForm(forms.ModelForm):
+    class Meta:
+        model = Curso
+        fields = ['nombre', 'descripcion', 'docente', 'duracion_semanas', 'fecha_inicio', 'activo']
+        widgets = {
+            'descripcion': forms.Textarea(),
+            'fecha_inicio': forms.DateInput(attrs={'type': 'date'}),
+        }
 
 
 class EstudianteForm(forms.Form):

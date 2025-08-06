@@ -1,0 +1,19 @@
+{% extends "padre.html" %}
+
+{% block title %} Detalle del Curso {% endblock %}
+
+{% block content %}
+  <h2>Detalle del Curso</h2>
+
+  <p><strong>Nombre:</strong> {{ object.nombre }}</p>
+  <p><strong>Descripción:</strong> {{ object.descripcion }}</p>
+  <p><strong>Docente:</strong> {{ object.docente }}</p>
+  <p><strong>Duración (semanas):</strong> {{ object.duracion_semanas }}</p>
+  <p><strong>Fecha de inicio:</strong> {{ object.fecha_inicio }}</p>
+  <p><strong>Activo:</strong> {{ object.activo }}</p>
+
+  <button type="button" onclick="location.href='{% url 'editar-curso' object.pk %}'">Editar</button>
+  <button type="button" onclick="location.href='{% url 'eliminar-curso' object.pk %}'">Eliminar</button>
+  <button type="button" onclick="location.href='{% url 'cursos' %}'">Volver</button>
+{% endblock %}
+

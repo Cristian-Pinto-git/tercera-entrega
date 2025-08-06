@@ -161,3 +161,23 @@ class AutoDeleteView(DeleteView):
     template_name = 'mi_primer_app/eliminar_auto.html'
     success_url = reverse_lazy('listar-autos')
     
+
+class CursoListView(ListView):
+    model = Curso
+    template_name = 'mi_primer_app/cursos.html'
+    context_object_name = 'cursos'
+
+class CursoDetailView(DetailView):
+    model = Curso
+    template_name = 'mi_primer_app/detalle_curso.html'
+
+class CursoUpdateView(UpdateView):
+    model = Curso
+    fields = ['nombre', 'descripcion', 'docente', 'duracion_semanas', 'fecha_inicio', 'activo']
+    template_name = 'mi_primer_app/editar_curso.html'
+    success_url = '/cursos/'
+
+class CursoDeleteView(DeleteView):
+    model = Curso
+    template_name = 'mi_primer_app/eliminar_curso.html'
+    success_url = '/cursos/'

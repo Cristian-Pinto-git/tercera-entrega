@@ -2,7 +2,7 @@ from django.urls import path
 
 from .views import (about, saludo, docentes, estudiantes, saludo_con_template, crear_docente, inicio,
                     crear_curso, crear_estudiante, buscar_cursos, buscar_docentes, buscar_estudiantes, cursos,
-                    AutoListView, AutoCreateView, AutoDetailView, AutoUpdateView, AutoDeleteView)
+                    AutoListView, AutoCreateView, AutoDetailView, AutoUpdateView, AutoDeleteView, CursoDetailView, CursoUpdateView, CursoDeleteView)
 
 urlpatterns = [
     path('', inicio, name='inicio'),
@@ -24,4 +24,8 @@ urlpatterns = [
     path('detalle-auto/<int:pk>', AutoDetailView.as_view(), name='detalle-auto'),
     path('editar/<int:pk>', AutoUpdateView.as_view(), name='editar-auto'),
     path('eliminar/<int:pk>', AutoDeleteView.as_view(), name='eliminar-auto'),
+    path('curso/<int:pk>/', CursoDetailView.as_view(), name='detalle-curso'),
+    path('curso/<int:pk>/editar/', CursoUpdateView.as_view(), name='editar-curso'),
+    path('curso/<int:pk>/eliminar/', CursoDeleteView.as_view(), name='eliminar-curso'),
+
 ]
