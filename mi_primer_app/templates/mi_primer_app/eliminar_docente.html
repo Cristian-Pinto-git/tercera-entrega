@@ -9,8 +9,9 @@
 
 <form method="POST">
     {% csrf_token %}
-    <button type="submit">Confirmar Eliminación</button>
+    <button type="submit">Sí, eliminar</button>
+    <button type="button" onclick="location.href='{% url 'docentes' %}'">Cancelar</button>
 </form>
 
-<a href="{% url 'docentes' %}">Cancelar</a>
+
 {% endblock %}
