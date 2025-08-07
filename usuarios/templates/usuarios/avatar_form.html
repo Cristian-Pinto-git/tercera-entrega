@@ -6,7 +6,8 @@
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Enviar</button>
+    <button type="submit">Guardar</button>
+    <a href="{% url 'profile' %}"><button type="button">Cancelar</button></a>
 </form>
 
 {% endblock %}

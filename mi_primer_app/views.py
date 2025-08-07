@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from .models import Docente
 from .forms import DocenteForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Curso, Docente, Estudiante, Auto
 
@@ -165,11 +166,13 @@ def buscar_docentes(request):
         nombre = request.GET.get('nombre', '')
         docentes = Docente.objects.filter(nombre__icontains=nombre)
         return render(request, 'mi_primer_app/docentes.html', {'docentes': docentes, 'nombre': nombre})
-    
+
+@login_required    
 def listar_docentes(request):
     docentes = Docente.objects.all()
     return render(request, 'mi_primer_app/listar_docentes.html', {'docentes': docentes})
 
+@login_required
 def crear_docente(request):
     if request.method == 'POST':
         form = DocenteForm(request.POST)
@@ -180,10 +183,12 @@ def crear_docente(request):
         form = DocenteForm()
     return render(request, 'mi_primer_app/crear_docente.html', {'form': form})
 
+@login_required
 def detalle_docente(request, pk):
     docente = get_object_or_404(Docente, pk=pk)
     return render(request, 'mi_primer_app/detalle_docente.html', {'docente': docente})
 
+@login_required
 def editar_docente(request, pk):
     docente = get_object_or_404(Docente, pk=pk)
     if request.method == 'POST':
@@ -203,6 +208,7 @@ def editar_docente(request, pk):
         })
     return render(request, 'mi_primer_app/editar_docente.html', {'form': form, 'docente': docente})
 
+@login_required
 def eliminar_docente(request, pk):
     docente = get_object_or_404(Docente, pk=pk)
     if request.method == 'POST':
@@ -222,50 +228,50 @@ def about(request):
     return render(request, 'mi_primer_app/about.html')
 
 
-class AutoListView(ListView):
+class AutoListView(LoginRequiredMixin, ListView):
     model = Auto
     template_name = 'mi_primer_app/listar_autos.html'
     context_object_name = 'autos'
     
-class AutoCreateView(CreateView):
+class AutoCreateView(LoginRequiredMixin, CreateView):
     model = Auto
     form_class = AutoForm
     template_name = 'mi_primer_app/crear_auto.html'
     success_url = reverse_lazy('listar-autos')
 
-class AutoDetailView(DetailView):
+class AutoDetailView(LoginRequiredMixin, DetailView):
     model = Auto
     template_name = 'mi_primer_app/detalle_auto.html'
     context_object_name = 'auto'
 
-class AutoUpdateView(UpdateView):
+class AutoUpdateView(LoginRequiredMixin, UpdateView):
     model = Auto
     form_class = AutoForm
     template_name = 'mi_primer_app/crear_auto.html'
     success_url = reverse_lazy('listar-autos')
 
-class AutoDeleteView(DeleteView):
+class AutoDeleteView(LoginRequiredMixin, DeleteView):
     model = Auto
     template_name = 'mi_primer_app/eliminar_auto.html'
     success_url = reverse_lazy('listar-autos')
 
 
-class CursoListView(ListView):
+class CursoListView(LoginRequiredMixin, ListView):
     model = Curso
     template_name = 'mi_primer_app/cursos.html'
     context_object_name = 'cursos'
 
-class CursoDetailView(DetailView):
+class CursoDetailView(LoginRequiredMixin, DetailView):
     model = Curso
     template_name = 'mi_primer_app/detalle_curso.html'
 
-class CursoUpdateView(UpdateView):
+class CursoUpdateView(LoginRequiredMixin, UpdateView):
     model = Curso
     fields = ['nombre', 'descripcion', 'docente', 'duracion_semanas', 'fecha_inicio', 'activo']
     template_name = 'mi_primer_app/editar_curso.html'
     success_url = '/cursos/'
 
-class CursoDeleteView(DeleteView):
+class CursoDeleteView(LoginRequiredMixin, DeleteView):
     model = Curso
     template_name = 'mi_primer_app/eliminar_curso.html'
     success_url = '/cursos/'

@@ -12,6 +12,8 @@ from django.views import View
 from .models import Avatar
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 
 
 
@@ -28,6 +30,31 @@ class UserRegisterView(CreateView):
         if user:
             login(self.request, user)
         return response
+
+@login_required
+def editar_usuario(request, usuario_id):
+    usuario = get_object_or_404(User, id=usuario_id)
+
+    if request.method == 'POST':
+        usuario.username = request.POST.get('username')
+        usuario.email = request.POST.get('email')
+        usuario.save()
+        messages.success(request, 'Usuario actualizado con éxito.')
+        return redirect('profile')  # Redirigí a donde corresponda
+
+    return render(request, 'usuarios/editar_usuario.html', {'usuario': usuario})
+
+    
+@login_required
+def eliminar_usuario(request, usuario_id):
+    usuario = get_object_or_404(User, id=usuario_id)
+
+    if request.method == 'POST':
+        usuario.delete()
+        messages.success(request, 'Usuario eliminado correctamente.')
+        return redirect('inicio')  # Redirigí donde tenga sentido en tu app
+
+    return render(request, 'usuarios/confirmar_eliminar_usuario.html', {'usuario': usuario})
 
 
 class CustomLoginView(LoginView):
@@ -108,9 +135,3 @@ class ProfileUpdateView(LoginRequiredMixin, View):
         return render(request, self.template_name, context)
    
 
-@login_required 
-def usuarios(request):
-    if request.method == 'GET':
-        nombre = request.GET.get('nombre', '')
-        usuarios = User.objects.filter(username__icontains=nombre)
-        return render(request, 'usuarios/usuarios.html', {'usuarios': usuarios, 'nombre': nombre})

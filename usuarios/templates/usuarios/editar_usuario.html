@@ -1,0 +1,35 @@
+{% extends "padre.html" %}
+
+
+{% block content %}
+<h2>Editar Usuario</h2>
+
+<form method="post">
+    {% csrf_token %}
+    
+    <label>Nombre de usuario:</label>
+    <input type="text" name="username" value="{{ usuario.username }}"><br>
+
+    <label>Email:</label>
+    <input type="email" name="email" value="{{ usuario.email }}"><br>
+    
+    <label>Avatar:</label>
+    <a href="{% url 'avatar-update' %}"><button type="button">Editar</button></a>
+
+    <br>
+    <label>Contraseña:</label>
+    <a href="{% url 'cambiar_password' %}">
+        <button type="button">Editar</button>
+    </a>
+
+</form>
+<br>
+<form method="post">
+    {% csrf_token %}
+    
+    <button type="submit">Guardar</button>
+    <a href="{% url 'profile' %}"><button type="button">Cancelar</button></a>
+</form>
+
+
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "padre.html" %}
+{% block content %}
+<h2>Confirmar eliminación</h2>
+<p>¿Estás seguro de que querés eliminar el usuario <strong>{{ usuario.username }}</strong>?</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Sí, eliminar</button>
+    <a href="{% url 'profile' %}"><button type="button">Cancelar</button></a>
+</form>
+{% endblock %}
