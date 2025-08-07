@@ -12,5 +12,5 @@ En el archivo "requirements.txt" podran encontrar las herramientas necesarias pa
 El proyecto es un gestor para una insitucion que imparte cursos varios. En el proyecto podremos gestionar cursos, docente y estudiantes. Para poder acceder a la informacion y la gestion de los objetos se debera estar logueado como usuario.
 
 
-Link del video: https://wwcleaw.loom.com/share/104c369d0b2843d7b4d46d9080b8d6b7?sid=44e18303-8f4c-45f5-b79f-ba10aef896f3
+Link del video: https://www.loom.com/share/104c369d0b2843d7b4d46d9080b8d6b7?sid=dc846cca-3ccf-4afd-b713-e9ecd3471643
 
