@@ -2,6 +2,8 @@ from django.urls import path
 
 from .views import (about, saludo, docentes, estudiantes, saludo_con_template, crear_docente, inicio,
                     crear_curso, crear_estudiante, buscar_cursos, buscar_docentes, buscar_estudiantes, cursos,
+                    listar_docentes, crear_docente, detalle_docente, editar_docente, eliminar_docente, detalle_estudiante,
+                    editar_estudiante, eliminar_estudiante,
                     AutoListView, AutoCreateView, AutoDetailView, AutoUpdateView, AutoDeleteView, CursoDetailView, CursoUpdateView, CursoDeleteView)
 
 urlpatterns = [
@@ -13,10 +15,18 @@ urlpatterns = [
     path('crear-estudiante/', crear_estudiante, name='crear-estudiante'),
     path('cursos/', cursos, name='cursos'),
     path('estudiantes/', estudiantes, name='estudiantes'),
+    path('estudiantes/<int:id>/', detalle_estudiante, name='detalle-estudiante'),
+    path('estudiantes/<int:id>/editar/', editar_estudiante, name='editar-estudiante'),
+    path('estudiantes/<int:id>/eliminar/', eliminar_estudiante, name='eliminar-estudiante'),
     path('docentes/', docentes, name='docentes'),
+    path('docentes/buscar', buscar_docentes, name='buscar-docentes'),
+    path('docentes/', listar_docentes, name='listar-docentes'),
+    path('docentes/crear/', crear_docente, name='crear-docente'),
+    path('docentes/<int:pk>/', detalle_docente, name='detalle-docente'),
+    path('docentes/<int:pk>/editar/', editar_docente, name='editar-docente'),
+    path('docentes/<int:pk>/eliminar/', eliminar_docente, name='eliminar-docente'),
     path('cursos/buscar', buscar_cursos, name='buscar-cursos'),
     path('estudiantes/buscar', buscar_estudiantes, name='buscar-estudiantes'),
-    path('docentes/buscar', buscar_docentes, name='buscar-docentes'),
     path('about/', about, name='about'),
     # urls con vistas basadas en clases
     path('crear-auto/', AutoCreateView.as_view(), name='crear-auto'),

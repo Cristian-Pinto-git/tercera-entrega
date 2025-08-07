@@ -1,0 +1,18 @@
+{% extends "padre.html" %}
+
+{% block title %} Detalle del Estudiante {% endblock %}
+
+{% block content %}
+  <h2>Detalle del Estudiante</h2>
+
+  <p><strong>Nombre:</strong> {{ estudiante.nombre }}</p>
+  <p><strong>Apellido:</strong> {{ estudiante.apellido }}</p>
+  <p><strong>Email:</strong> {{ estudiante.email }}</p>
+  <p><strong>Edad:</strong> {{ estudiante.edad }}</p>
+  <p><strong>Curso:</strong> {{ estudiante.curso }}</p>
+  <p><strong>Fecha de inscripción:</strong> {{ estudiante.fecha_inscripcion }}</p>
+
+  <button type="button" onclick="location.href='{% url 'editar-estudiante' estudiante.pk %}'">Editar</button>
+  <button type="button" onclick="location.href='{% url 'eliminar-estudiante' estudiante.pk %}'">Eliminar</button>
+  <button type="button" onclick="location.href='{% url 'estudiantes' %}'">Volver</button>
+{% endblock %}

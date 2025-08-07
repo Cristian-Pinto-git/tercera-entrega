@@ -1,0 +1,16 @@
+{% extends "padre.html" %}
+
+{% block title %} Eliminar Docente {% endblock %}
+
+{% block content %}
+<h2>Eliminar Docente</h2>
+
+<p>¿Estás seguro que querés eliminar al docente <strong>{{ docente.nombre }} {{ docente.apellido }}</strong>?</p>
+
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit">Confirmar Eliminación</button>
+</form>
+
+<a href="{% url 'docentes' %}">Cancelar</a>
+{% endblock %}

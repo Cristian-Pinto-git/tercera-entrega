@@ -4,11 +4,11 @@ from django.db import models
 
 
 class Docente(models.Model):
-    nombre = models.CharField(max_length=50)
-    apellido = models.CharField(max_length=50)
-    email = models.EmailField(unique=True)
+    nombre = models.CharField(max_length=100)
+    apellido = models.CharField(max_length=100)
+    email = models.EmailField()
     edad = models.IntegerField()
-    curso = models.CharField(max_length=50)
+    curso = models.CharField(max_length=100)
 
     def __str__(self):
         return f"{self.nombre} {self.apellido}"

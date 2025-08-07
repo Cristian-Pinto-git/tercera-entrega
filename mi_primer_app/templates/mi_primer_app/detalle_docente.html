@@ -1,0 +1,20 @@
+{% extends "padre.html" %}
+
+{% block title %} Detalle Docente {% endblock %}
+
+{% block content %}
+<h2>Detalle del Docente</h2>
+
+<ul>
+    <li><strong>Nombre:</strong> {{ docente.nombre }}</li>
+    <li><strong>Apellido:</strong> {{ docente.apellido }}</li>
+    <li><strong>Email:</strong> {{ docente.email }}</li>
+    <li><strong>Edad:</strong> {{ docente.edad }}</li>
+    <li><strong>Curso:</strong> {{ docente.curso }}</li>
+</ul>
+
+<button type="button" onclick="location.href='{% url 'editar-docente' docente.pk %}'">Editar</button>
+<button type="button" onclick="location.href='{% url 'eliminar-docente' docente.pk %}'">Eliminar</button>
+<button type="button" onclick="location.href='{% url 'docentes' %}'">Volver</button>
+
+{% endblock %}

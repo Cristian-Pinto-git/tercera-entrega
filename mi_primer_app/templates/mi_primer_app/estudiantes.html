@@ -15,7 +15,12 @@
 
 <ul>
     {% for estudiante in estudiantes %}
-        <li>{{ estudiante.nombre }}</li>
+        <li>
+            {{ estudiante.nombre }}
+            <button type="button" onclick="location.href='{% url 'detalle-estudiante' estudiante.pk %}'"> Detalle </button>
+            <button type="button" onclick="location.href='{% url 'editar-estudiante' estudiante.pk %}'"> Editar </button>
+            <button type="button" onclick="location.href='{% url 'eliminar-estudiante' estudiante.pk %}'"> Eliminar </button>
+        </li>
     {% empty %}
         <li>No hay estudiantes disponibles.</li>
     {% endfor %}

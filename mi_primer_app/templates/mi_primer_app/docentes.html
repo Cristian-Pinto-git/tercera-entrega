@@ -1,7 +1,5 @@
 {% extends "padre.html" %}
 
-{% block title %} Docentes {% endblock %}
-
 {% block content %}
 
 <h2>Buscar Docente</h2>
@@ -11,11 +9,15 @@
     <button type="submit">Buscar</button>
 </form>
 
-<h2>Docentes: </h2>
-
+<h2>Lista de Docentes</h2>
 <ul>
     {% for docente in docentes %}
-        <li>{{ docente.nombre }}</li>
+        <li>
+            {{ docente.nombre }} {{ docente.apellido }}
+            <button type="button" onclick="location.href='{% url 'detalle-docente' docente.pk %}'"> Detalle </button>
+            <button type="button" onclick="location.href='{% url 'editar-docente' docente.pk %}'"> Editar </button>
+            <button type="button" onclick="location.href='{% url 'eliminar-docente' docente.pk %}'"> Eliminar </button>
+        </li>
     {% empty %}
         <li>No hay docentes disponibles.</li>
     {% endfor %}

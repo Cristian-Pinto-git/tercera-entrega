@@ -1,5 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
+from .models import Docente
+from .forms import DocenteForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from .models import Curso, Docente, Estudiante, Auto
@@ -94,6 +96,48 @@ def estudiantes(request):
     estudiantes = Estudiante.objects.all()
     return render(request, 'mi_primer_app/estudiantes.html', {'estudiantes': estudiantes})
 
+@login_required
+def detalle_estudiante(request, id):
+    estudiante = get_object_or_404(Estudiante, id=id)
+    return render(request, 'mi_primer_app/detalle_estudiante.html', {'estudiante': estudiante})
+
+@login_required
+def editar_estudiante(request, id):
+    estudiante = get_object_or_404(Estudiante, id=id)
+
+    if request.method == 'POST':
+        form = EstudianteForm(request.POST)
+        if form.is_valid():
+            estudiante.nombre = form.cleaned_data['nombre']
+            estudiante.apellido = form.cleaned_data['apellido']
+            estudiante.email = form.cleaned_data['email']
+            estudiante.edad = form.cleaned_data['edad']
+            estudiante.curso = form.cleaned_data['curso']
+            # fecha_inscripcion normalmente no se edita porque es auto_now_add
+            estudiante.save()
+            return redirect('estudiantes')
+    else:
+        form = EstudianteForm(initial={
+            'nombre': estudiante.nombre,
+            'apellido': estudiante.apellido,
+            'email': estudiante.email,
+            'edad': estudiante.edad,
+            'curso': estudiante.curso,
+            'fecha_inscripcion': estudiante.fecha_inscripcion,
+        })
+
+    return render(request, 'mi_primer_app/editar_estudiante.html', {'form': form, 'estudiante': estudiante})
+
+@login_required
+def eliminar_estudiante(request, id):
+    estudiante = get_object_or_404(Estudiante, id=id)
+
+    if request.method == 'POST':
+        estudiante.delete()
+        return redirect('estudiantes')
+
+    return render(request, 'mi_primer_app/eliminar_estudiante.html', {'estudiante': estudiante})
+
 
 @login_required
 def docentes(request):
@@ -121,6 +165,50 @@ def buscar_docentes(request):
         nombre = request.GET.get('nombre', '')
         docentes = Docente.objects.filter(nombre__icontains=nombre)
         return render(request, 'mi_primer_app/docentes.html', {'docentes': docentes, 'nombre': nombre})
+    
+def listar_docentes(request):
+    docentes = Docente.objects.all()
+    return render(request, 'mi_primer_app/listar_docentes.html', {'docentes': docentes})
+
+def crear_docente(request):
+    if request.method == 'POST':
+        form = DocenteForm(request.POST)
+        if form.is_valid():
+            Docente.objects.create(**form.cleaned_data)
+            return redirect('listar-docentes')
+    else:
+        form = DocenteForm()
+    return render(request, 'mi_primer_app/crear_docente.html', {'form': form})
+
+def detalle_docente(request, pk):
+    docente = get_object_or_404(Docente, pk=pk)
+    return render(request, 'mi_primer_app/detalle_docente.html', {'docente': docente})
+
+def editar_docente(request, pk):
+    docente = get_object_or_404(Docente, pk=pk)
+    if request.method == 'POST':
+        form = DocenteForm(request.POST)
+        if form.is_valid():
+            for campo, valor in form.cleaned_data.items():
+                setattr(docente, campo, valor)
+            docente.save()
+            return redirect('listar-docentes')
+    else:
+        form = DocenteForm(initial={
+            'nombre': docente.nombre,
+            'apellido': docente.apellido,
+            'email': docente.email,
+            'edad': docente.edad,
+            'curso': docente.curso,
+        })
+    return render(request, 'mi_primer_app/editar_docente.html', {'form': form, 'docente': docente})
+
+def eliminar_docente(request, pk):
+    docente = get_object_or_404(Docente, pk=pk)
+    if request.method == 'POST':
+        docente.delete()
+        return redirect('listar-docentes')
+    return render(request, 'mi_primer_app/eliminar_docente.html', {'docente': docente})
 
  
 @login_required   
@@ -133,12 +221,12 @@ def buscar_estudiantes(request):
 def about(request):
     return render(request, 'mi_primer_app/about.html')
 
+
 class AutoListView(ListView):
     model = Auto
     template_name = 'mi_primer_app/listar_autos.html'
     context_object_name = 'autos'
     
-
 class AutoCreateView(CreateView):
     model = Auto
     form_class = AutoForm
@@ -160,7 +248,7 @@ class AutoDeleteView(DeleteView):
     model = Auto
     template_name = 'mi_primer_app/eliminar_auto.html'
     success_url = reverse_lazy('listar-autos')
-    
+
 
 class CursoListView(ListView):
     model = Curso
@@ -181,3 +269,4 @@ class CursoDeleteView(DeleteView):
     model = Curso
     template_name = 'mi_primer_app/eliminar_curso.html'
     success_url = '/cursos/'
+
